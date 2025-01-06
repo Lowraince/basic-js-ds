@@ -7,8 +7,8 @@ const { NotImplementedError } = require('../extensions/index.js');
 * using Node from extensions
 */
 class Node {
-  constructor(value) {
-    this.value = value;
+  constructor(data) {
+    this.data = data;
     this.left = null;
     this.right = null;
   }
@@ -32,11 +32,7 @@ class BinarySearchTree {
         return new Node(data);
       }
 
-      if(root.value === data) {
-        return root;
-      }
-
-      data < root.value ? root.left = addComponent(root.left, data) : root.right = addComponent(root.right, data);
+      data < root.data ? root.left = addComponent(root.left, data) : root.right = addComponent(root.right, data);
 
       return root;
     }
@@ -50,11 +46,11 @@ class BinarySearchTree {
         return false;
       }
 
-      if(root.value === data) {
+      if(root.data === data) {
         return true
       }
 
-      return root.value < data ? hasElem(root.left, data) : hasElem(root.right, data);
+      return data < root.data ? hasElem(root.left, data) : hasElem(root.right, data);
     }
   }
 
@@ -67,19 +63,11 @@ class BinarySearchTree {
         return null;
       }
 
-      if(root.value === data) {
+      if(root.data === data) {
         return root;
       }
 
-      if(data < root.value) {
-        root.left = findData(root.left, data);
-
-        return root;
-      } else if (data > root.value) {
-        root.right = findData(root.right, data);
-
-        return root;
-      }
+      return data < root.data ? findData(root.left, data) : findData(root.right, data);
     }
   }
 
@@ -88,14 +76,13 @@ class BinarySearchTree {
 
     function removeData(root, data) {
       if(root === null) {
-        return null
+        return null;
       }
 
-      if(data < root.left) {
+      if(data < root.data) {
         root.left = removeData(root.left, data)
-
         return root;
-      } else if(data > root.right) {
+      } else if(data > root.data) {
         root.right = removeData(root.right, data)
 
         return root;
@@ -118,9 +105,9 @@ class BinarySearchTree {
           minFromRight = minFromRight.left
         }
 
-        root.value = minFromRight.value;
+        root.data = minFromRight.data;
 
-        root.right = removeData(root.right, minFromRight.value)
+        root.right = removeData(root.right, minFromRight.data)
 
         return root
       }
@@ -130,7 +117,7 @@ class BinarySearchTree {
 
   min() {
       if(this.head === null) {
-        return
+        return null;
       }
 
       let node = this.head;
@@ -139,12 +126,12 @@ class BinarySearchTree {
         node = node.left;
       }
 
-      return node.value;
+      return node.data;
   }
 
   max() {
     if(this.head === null) {
-      return
+      return null
     }
 
     let node = this.head;
@@ -153,7 +140,7 @@ class BinarySearchTree {
       node = node.right;
     }
 
-    return node.value;
+    return node.data;
   }
 }
 
